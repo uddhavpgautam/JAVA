@@ -123,8 +123,6 @@ def pretvori(izraz,automat,tablica):
         retList.extend([lijevo_stanje,desno_stanje])
         return retList
     
-def chomp(s):
-    return s[:-1] if s.endswith('\n') else s
 
 class Dict(object):
     
