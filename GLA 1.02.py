@@ -7,6 +7,29 @@ Created on Thu Oct 17 12:35:57 2013
 
 import sys
 
+class Dict(object):
+    
+    def __init__(self):
+        pass 
+
+    def napraviDict(self, ulazna_lista):
+        dict1 = {}
+        for redak in ulazna_lista:
+            if list(redak)[0] == "%":
+                break
+            odvoji = redak.split(" ")
+            prvi_clan = odvoji[1].split("|")[0]
+            if prvi_clan in dict1:
+                value = dict1[prvi_clan]
+                temp = odvoji[1].split(prvi_clan)
+                for slovo in list(temp[1]):
+                    value.append(slovo)
+            else:
+                value = list(odvoji[1])
+            del value[-1]
+            dict1[odvoji[0]] = value
+        return dict1
+
 class Automat(object):
     
     """Nacrt za sve $-NKA automate koji će se ostvarivati."""
@@ -128,11 +151,17 @@ def pretvori(izraz,automat):
         retList = []
         retList.extend([lijevo_stanje,desno_stanje])
         return retList
+        
+        
     
 def main():
-    
-    ulaz = open ('TEST.txt','r')    
+    ulaz = open ('ulazna.txt','r')
     datoteka = open ('datoteka.txt','w')
+    dictionary1 = Dict()
+    ulazna_lista = ulaz.readlines()
+    dict2 = dictionary1.napraviDict(ulazna_lista)
+    for item in dict2:
+        print str(item) + " " + str(dict2[item])
     
     stanja1 = []
     ls1 = [0,'|',1,'|',2,'|',3,'|',4,'|',5,'|',6,'|',7,'|',8,'|',9]
