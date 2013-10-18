@@ -1,0 +1,80 @@
+main od GLA
+
+main:
+	citaj sa ulaza
+	stvori globalnu datoteku za pisanje u ("/analizator/datoteka.txt")
+	stvori dictionary (key:value) gdje je key npr. {znamenka} a value lista reg. izraza
+	koju taj znak definira npr. [0,|,1,2...,|,9]
+	
+	petljom koja ispituje prvi znak reda pronađi red u
+	kojem je prvi znak "<" i na početku tog reda se zaustavi, 
+	while (1):
+		pročitaj prvi znak i spremi u prvi_znak
+		ako je prvi_znak == EOF iskoči iz petlje, inače narapvi ispod navedeni postupak:
+		pročitaj što je između znakova < i > te spremi to u varijablu stanje
+		ostatak reda spremi u listu (PAZI! u listu(npr. ls) će se upisati i znak za novi red koji nam je 
+		suvišan => pobriši zadnji član liste (naravno prvo provjeri nalazi li se tamo zaista znak '\n')
+		
+		stvori listu ls[]
+		stvori listu ls1[]
+		stvori listu ret[]
+		stvori automat (npr. automatS)
+		uz pomoć dictionary-a i liste ls napravi listu ls1 koja će imati samo osnovne regularne izraze, npr. umjesto {znamenka} će se 
+		upisati (0,|,1,...,|,9,) (može i nekako drugačije možda...)
+		listu ls1 pošaji u funkciju i to kako slijedi:
+		ret = pretvori(ls1,automat)
+		u ret će na mjesto 0 doći početno stanje, a na mjesto 1 prihvatljivo stanje
+		pobriši zadnji znak u retku datoteke (morao bi biti znak '|')
+		zapiši varijablu stanje (koja mora biti string) u datoteku i to kako slijedi:
+			stanje = ' '+stanje+'|'
+			datoteka.write(stanje)
+		pretvori članove liste u stringove
+		poc = str(ret[0])
+		prih = str(ret[1])
+		zapiši ih u datoteku i to kako slijedi:
+			poc = poc+'|'
+			prih = prih+'|'+' '
+			datoteka.write(poc)
+			datoteka.write(prih)
+		
+		preskoči jedan redak sa ulaza - onaj koji sadrži samo znak '{'
+		ucitaj prvi znak retka u varijablu prvi_znak
+		while (prvi_znak != '}'):
+			pročitaj redak i pročitano spremi u listu (npr. ls2)
+				npr. ako redak glasi: UDJI_U_STANJE S_pocetno 
+				lista mora imati članove UDJI_U_STANJE i S_pocetno
+			pretvori članove liste u stringove
+			dodaj im znak '|' neposredno nakon njih, kao što je opisano u kodu iznad
+			zapiši sve članove u datoteku
+			skoči u novi red
+			procitaj prvi znak retka i spremi u varijablu prvi_znak
+		
+		pobriši zadnji znak u retku datoteke (morao bi biti znak '|')
+		u datoteku zapiši novi red
+		datoteka.write('\n')
+		skoči na početak petlje (continue)
+		// u ovom trenutku je kreiran kompletni automat koji se nalazi u jednom retku datoteka.txt
+		// a kojeg će čitati LA
+		
+	zatvori ulaz i izlaz
+	
+Nakon ove procedure jedan redak izlaza bi trebao imati sve potrebno za izgradnju automata i to
+u formatu, npr.
+prijelazi se pišu nakon što se pozove funkcija i nisu dio main funkcije
+
+4,0->5|2,$->4|5,$->3|0,$->2|3,$->1 S_pocetno|q0|qp IDN|e sad tu može biti UDJI_USTANJE|koje stanje|NOVI_REDAK|i još ponešto *
+
+*pošto leksički analizator čita ovaj redak može prvo napraviti 3 liste koje dijeli razmak, a onda još te tri dijeliti i to ovako:
+1. lista, s prijelazima, se lagano odvoji preko '|' i nije fiksna
+2. lista će uvijek imati tri člana i to ovim redosljedom
+3. lista isto nije fiksna te će njen sadžaj LA morati posebno ispitivati, međutim imati će neke obrasce tipa
+ako je n-ti član liste UDJI_U_STANJE onda će n+1 član liste sigurno biti to stanje(npr. UDJI_U_STANJE S_pocetno)
+		
+
+		 
+		
+		
+			
+		
+		
+		
