@@ -76,9 +76,9 @@ def pretvori(izraz,automat):
                 prefiksirano = 0
                 prijelazni_znak = ""
                 if izraz[i] == 't':
-                    prijelazni_znak = '\t'
+                    prijelazni_znak = '\\t'
                 elif izraz[i] == 'n':
-                    prijelazni_znak = '\n'
+                    prijelazni_znak = '\\n'
                 elif izraz[i] == '_':
                     prijelazni_znak = ' '
                 else:
