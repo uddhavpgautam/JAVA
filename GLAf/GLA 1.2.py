@@ -228,7 +228,7 @@ def izmjeniRedak(redak):
 
 def main():
     global datoteka
-    ulaz = open ('ulazna.txt','r')
+    ulaz = sys.stdin
     #datoteka = open('datoteka.txt','w')
     datoteka = open(os.path.join('analizator','datoteka.txt' ), "w")
     dictionary1 = Dict(makniLF(ulaz.readlines())) 
