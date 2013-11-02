@@ -25,6 +25,36 @@ def main ():
     del sinkronizacijski[0]
     sinkronizacijski [-1] = sinkronizacijski[-1].strip()
 
+    mapa = {}
+
+    #sredi produkcije
+    while 1:
+        red = list(ulaz.readline())
+
+        if not red:
+            break
+
+        #pobrisi znak za novi red
+        del red [-1]
+
+        #provjeri prvi znak reda
+
+        if red[0] == '<':
+            lijevaStrana = ''.join(red)
+            if lijevaStrana in mapa:
+                pass
+            else:
+                mapa[lijevaStrana] = []
+            continue
+
+        else:
+            del red[0]
+            tmp = ''.join(red)
+            desnaStrana = tmp.split(' ')
+            mapa[lijevaStrana].append(desnaStrana)
+    print mapa
+
+
 
 
 
