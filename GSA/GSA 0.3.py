@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 @author: Matko
+
 """
+
+import sys
+from enka import Enka
 
 # Ako je prazan vraca 1.
 def jeliPrazan(lista, element):
@@ -103,12 +107,14 @@ def main ():
 
 
     listaPraznih = []
-    dictZapocinje = []
+    dictZapocinje = {}
     print mapa
 
-    #točka će biti #, a eps prijelaz $
+    #točka će biti #,eps prijelaz $,% znak za kraj (obrnuti T)
 
     lsTrenutnihStanja = []
+    lista = []
+    stanja = []
 
     #u lsTrenutnihStanja dodaj pocetna stanja
 
@@ -119,11 +125,42 @@ def main ():
         lsTrenutnihStanja.append(mapa[pocetni_nezavrsni][i])
 
     #print lsTrenutnihStanja
+    enka = Enka()
 
     for i in range(len(lsTrenutnihStanja)):
         lsTrenutnihStanja[i] = lsPocetNezavrsni + lsTrenutnihStanja[i]
+        #usput popuni listu listu
+        lista.append('%')
+        stanja.append(enka.stvoriStanje(lsTrenutnihStanja[i],lista[i]))
+    i = 0
+    while i < len(stanja):
+        tmp = []
+        #prima string svih stanja u koje se prešlo
+        primljeno = enka.nadiEps(stanja[i])
+        if primljeno == '#':
+            i+=1
+            continue
+
+        #pretvara string primljeno u listu odvojenu '|'
+        #dodaje novonastalu listu listi stanja
+
+        #duljina liste se povecava za 1,
+        #izlazi iz petlje kad su u listi stanja sva stanja um koje se dolazi eps prijelazom
+        i += 1
 
     #print lsTrenutnihStanja
+    #print lista
+    #print stanja
+
+
+
+
+
+
+
+
+
+
 
 
 
