@@ -8,8 +8,10 @@
 class Enka(object):
 
 
-    def __init__(self):
-        pass
+    def __init__(self,mapa,listaPraznih,dictZapocinje):
+        self.mapa = mapa
+        self.listaPraznih = listaPraznih
+        self.dictZapocinje = dictZapocinje
 
     def stvoriStanje(self,ime,lista):
         stanje = ''

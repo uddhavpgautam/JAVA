@@ -125,13 +125,15 @@ def main ():
         lsTrenutnihStanja.append(mapa[pocetni_nezavrsni][i])
 
     #print lsTrenutnihStanja
-    enka = Enka()
+    enka = Enka(mapa,listaPraznih,dictZapocinje)
 
     for i in range(len(lsTrenutnihStanja)):
         lsTrenutnihStanja[i] = lsPocetNezavrsni + lsTrenutnihStanja[i]
         #usput popuni listu listu
         lista.append('%')
         stanja.append(enka.stvoriStanje(lsTrenutnihStanja[i],lista[i]))
+
+
     i = 0
     while i < len(stanja):
         tmp = []
