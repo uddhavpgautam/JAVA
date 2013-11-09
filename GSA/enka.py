@@ -36,9 +36,11 @@ class Enka(object):
         #prvo vidi di je točka
         ind = ime.find('#')
 
-        #je li na kraju, ili je poslije nje zavrsni znakako je vrati #
+        #je li na kraju, ili je poslije nje zavrsni znak, ako je vrati #
+        falseRet = []
         if ind+1 == len(ime) or ime[ind+1] != '<':
-            return '#'
+            falseRet.append('#')
+            return falseRet
 
         #ako smo tu u kodu znaci da slijedi nezavrsni znak
         #pogledaj koji je to znak
@@ -50,28 +52,43 @@ class Enka(object):
         znak1 = list(znak1)
         del znak1 [ind+1:]
         znak1 = ''.join(znak1)
-        print ime
         #u znak1 je sada znak koji moramo obraditi
 
-        #provjeri ide li nakon njega nezavrsni znak i ako da koji
+        #provjeri ide li nakon njega nezavrsni znak i ako da koji, a prvo vidi je li poslije njega kraj
         ind = ime.find('#<')
         znak2 = list(ime)
         del znak2 [:ind+1]
         znak2 = ''.join(znak2)
         ind = znak2.find('>')
         znak2 = list(znak2)
-        if znak2[ind+1] != '<':
+        if ind+1 == len(znak2) or znak2[ind+1] != '<':
+            #u listi ostaju isti znakovi
             pass
         else:
+            #u listu dodaj znakove iz skupova praznih znakova i skupa zapocinje (točke 4.c.1,4.c.2 iz udžbenika str. 148)
             znak2 = ''.join(znak2)
             ind = znak2.find('>')
             znak2 = list(znak2)
             del znak2 [:ind+1]
             del znak2 [ind+1:]
             znak2 = ''.join(znak2)
+            #dodaj te znakove u listu... - FALI KOD
 
-        print znak1
-        print znak2
+        #u znak1 je sada znak za koji moramo stvoriti nova stanja, a u listi je ono što im pridružujemo
+
+        lsTrenutnihStanja = []
+        stanja = []
+
+        for i in range(len(self.mapa[znak1])):
+            lsTrenutnihStanja.append(self.mapa[znak1][i])
+
+        lsZnak1 = [znak1, '->', '#']
+
+        for i in range(len(lsTrenutnihStanja)):
+            lsTrenutnihStanja[i] = lsZnak1 + lsTrenutnihStanja[i]
+            stanja.append(self.stvoriStanje(lsTrenutnihStanja[i], lista))
+        return stanja
+
 
 
 

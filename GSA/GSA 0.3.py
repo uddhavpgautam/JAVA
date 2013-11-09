@@ -47,7 +47,7 @@ def main ():
     #print "HelloWorld"
     #print "Ovo je promjena"
 
-    ulaz = open('Ulazna.txt','r')
+    ulaz = open('ulaznaKnjiga','r')
 
     #učitavanje prva 3 reda
 
@@ -69,7 +69,6 @@ def main ():
     #sredi produkcije
     while 1:
         red = list(ulaz.readline())
-
         if not red:
             break
 
@@ -91,7 +90,6 @@ def main ():
             tmp = ''.join(red)
             desnaStrana = tmp.split(' ')
             mapa[lijevaStrana].append(desnaStrana)
-    #print mapa
     
     listaPraznihZnakova = []
     # Popuni listu praznih znakova.
@@ -136,23 +134,19 @@ def main ():
 
     i = 0
     while i < len(stanja):
-        tmp = []
-        #prima string svih stanja u koje se prešlo
+        primljeno = []
         primljeno = enka.nadiEps(stanja[i])
-        if primljeno == '#':
+        if primljeno[0] == '#':
             i+=1
             continue
-
-        #pretvara string primljeno u listu odvojenu '|'
+        print stanja
         #dodaje novonastalu listu listi stanja
-
+        stanja.extend(primljeno)
+        print stanja
+        #izlazi iz petlje kad su u listi stanja sva stanja u koje se dolazi eps prijelazom
         #duljina liste se povecava za 1,
-        #izlazi iz petlje kad su u listi stanja sva stanja um koje se dolazi eps prijelazom
         i += 1
 
-    #print lsTrenutnihStanja
-    #print lista
-    #print stanja
 
 
 
