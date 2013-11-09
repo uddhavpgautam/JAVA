@@ -105,6 +105,8 @@ def main ():
     #print relacijaPrva
 
 
+
+
     listaPraznih = []
     dictZapocinje = {}
     print mapa
@@ -158,8 +160,10 @@ def main ():
             pom = pom.replace("#$","#")
             stanja[i] = pom
 
+    #sada imam nekakvu pcoetnu lsitu stanja u kojima sam trenutno(bez q0...)
 
-    novaStanja = enka.nadiStanja(stanja)
+    #idem od svih pocetnih stanja
+
 
 
 

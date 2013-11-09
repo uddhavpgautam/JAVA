@@ -90,6 +90,9 @@ class Enka(object):
         return stanja
 
     def nadiPrijelaz(self,stanje):
+        #funkcija dobiva jedno stanje i vraca jedno stanje u koje je presla zbog procitanog znaka
+        #pomaknute tocke, pritom ne mijenja listu
+        #dodatno vraca i znak (bilo zavrsni ili nezavrsni) koji je procitala kao drugi clan liste
         ind = stanje.find('#')
         falseRet = []
 
@@ -108,37 +111,35 @@ class Enka(object):
         del staro[:ind+1]
         staro = ''.join(staro)
 
+        znak = ''
+
         if stanje[ind+1] == '<':
             ind2 = staro.find('>')
             staro = list(staro)
             staro.insert(ind2+1,'#')
             staro = ''.join(staro)
+            znak = staro[:ind2+1]
         else:
-            ind2 = staro.find('<')
+            ind3 = staro.find('<')
             ind4 = staro.find('{')
-            if ind2 != -1:
+            if ind3 != -1:
                 staro = list(staro)
-                staro.insert(ind2,'#')
+                staro.insert(ind3,'#')
                 staro = ''.join(staro)
+                znak = staro[:ind3]
             elif ind4 != -1:
                 staro = list(staro)
                 staro.insert(ind4,'#')
                 staro = ''.join(staro)
+                znak = staro[:ind4]
 
         novo = prviDio+staro
+        ret =[]
+        ret.append(novo)
+        ret.append(znak)
         return novo
 
-    def nadiStanja(self,stanja):
-        #prima listu stanja i za koje kog nade prijelaz vraca stavlja u listu i konacno vraca listu svih novih stanja
-        #koje je pronasao
-        print stanja
-        ret = []
-        for i in range(len(stanja)):
-            ret.append(self.nadiPrijelaz(stanja[i]))
 
-        print ret
-
-        #pobrisi sve # u retu
 
 
 
