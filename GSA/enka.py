@@ -94,6 +94,7 @@ class Enka(object):
 
 
     def nadiEps(self,stanje):
+        pass
 
 
 

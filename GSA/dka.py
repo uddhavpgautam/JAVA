@@ -10,10 +10,8 @@ class Dka(object):
     prijelazi = []
 
 
-    def __init__(self,mapa,listaPraznih,dictZapocinje):
-        self.mapa = mapa
-        self.listaPraznih = listaPraznih
-        self.dictZapocinje = dictZapocinje
+    def __init__(self):
+        pass
 
     def dodajLStanje(self,stanja):
         self.prijelazi.append(stanja)

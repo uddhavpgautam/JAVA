@@ -109,7 +109,6 @@ def main ():
 
     listaPraznih = []
     dictZapocinje = {}
-    print mapa
 
     # # - točka, $ eps, % znak za kraj (obrnuti T)
 
@@ -125,7 +124,7 @@ def main ():
     for i in range(len(mapa[pocetni_nezavrsni])):
         lsTrenutnihStanja.append(mapa[pocetni_nezavrsni][i])
 
-    #print lsTrenutnihStanja
+
     enka = Enka(mapa,listaPraznih,dictZapocinje)
 
     for i in range(len(lsTrenutnihStanja)):
@@ -133,7 +132,6 @@ def main ():
         #usput popuni listu listu
         lista.append('%')
         stanja.append(enka.stvoriStanje(lsTrenutnihStanja[i],lista[i]))
-
 
     i = 0
     while i < len(stanja):
@@ -148,7 +146,12 @@ def main ():
         #duljina liste se povecava za 1,
         i += 1
 
-    #spremi trenutni skup stanja (kasnije ce trebat za DKA i da se zna di dodat qo/S'
+    #dodaj novu produkciju u mapu i stanja
+    ls_poc_nez = []
+    ls_poc_nez.append(pocetni_nezavrsni)
+    mapa['<NoviNezZnak>'] = ls_poc_nez
+    tmp = '<NoviNezZnak>->#'+pocetni_nezavrsni+'{%}'
+    stanja.append(tmp)
 
     #stvori dka
     dka = Dka()
@@ -161,9 +164,14 @@ def main ():
             pom = pom.replace("#$","#")
             stanja[i] = pom
 
-    #sada imam nekakvu pocetnu listu stanja u kojima sam trenutno(bez q0...)
+    print mapa
+    print stanja
 
+    #sada imam nekakvu pocetnu listu stanja u kojima sam trenutno
     #idem od svih pocetnih stanja
+
+
+
 
 
 
