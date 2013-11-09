@@ -3,7 +3,7 @@
 @author: Matko
 """
 
-
+from dka import Dka
 
 class Enka(object):
 
@@ -22,7 +22,7 @@ class Enka(object):
         stanje += '}'
         return stanje
 
-    def nadiEps(self,stanje):
+    def nadiEpsPoc(self,stanje):
         #dobiva jedno stanje
         #nalazi sva stanja u koje se prelazi eps prijalzima iz tog stanja (samo prvu razinu)
         #vraća string svih stanja u koje se prešlo odvojenih znakom '|'
@@ -36,12 +36,15 @@ class Enka(object):
         #prvo vidi di je točka
         ind = ime.find('#')
 
-        #je li na kraju, ili je poslije nje zavrsni znak, ako je vrati #
+        #je li na kraju,
         falseRet = []
-        if ind+1 == len(ime) or ime[ind+1] != '<':
+        if ind+1 == len(ime):
+            falseRet.append('{')
+            return falseRet
+        #ili je poslije nje zavrsni znak
+        elif ime[ind+1] != '<':
             falseRet.append('#')
             return falseRet
-
         #ako smo tu u kodu znaci da slijedi nezavrsni znak
         #pogledaj koji je to znak
 
@@ -89,6 +92,14 @@ class Enka(object):
             stanja.append(self.stvoriStanje(lsTrenutnihStanja[i], lista))
         return stanja
 
+
+    def nadiEps(self,stanje):
+
+
+
+
+
+
     def nadiPrijelaz(self,stanje):
         #funkcija dobiva jedno stanje i vraca jedno stanje u koje je presla zbog procitanog znaka
         #pomaknute tocke, pritom ne mijenja listu
@@ -98,7 +109,7 @@ class Enka(object):
 
         #ako nema prijelaza
         if stanje[ind+1] == '{':
-            falseRet.append('#')
+            falseRet.append('{')
             return falseRet
 
         #inače generiraj novo stanje

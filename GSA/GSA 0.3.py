@@ -138,8 +138,8 @@ def main ():
     i = 0
     while i < len(stanja):
         primljeno = []
-        primljeno = enka.nadiEps(stanja[i])
-        if primljeno[0] == '#':
+        primljeno = enka.nadiEpsPoc(stanja[i])
+        if primljeno[0] == '#' or primljeno[0] == '{':
             i+=1
             continue
         #dodaje novonastalu listu listi stanja
@@ -149,8 +149,9 @@ def main ():
         i += 1
 
     #spremi trenutni skup stanja (kasnije ce trebat za DKA i da se zna di dodat qo/S'
-    stanjaDka = []
-    stanjaDka.append(stanja)
+
+    #stvori dka
+    dka = Dka()
 
     #makni znak eps tamo di je tocka (#) dosla na kraj
     for i in range(len(stanja)):
@@ -160,7 +161,7 @@ def main ():
             pom = pom.replace("#$","#")
             stanja[i] = pom
 
-    #sada imam nekakvu pcoetnu lsitu stanja u kojima sam trenutno(bez q0...)
+    #sada imam nekakvu pocetnu listu stanja u kojima sam trenutno(bez q0...)
 
     #idem od svih pocetnih stanja
 
