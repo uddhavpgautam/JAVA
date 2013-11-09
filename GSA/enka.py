@@ -89,6 +89,57 @@ class Enka(object):
             stanja.append(self.stvoriStanje(lsTrenutnihStanja[i], lista))
         return stanja
 
+    def nadiPrijelaz(self,stanje):
+        ind = stanje.find('#')
+        falseRet = []
+
+        #ako nema prijelaza
+        if stanje[ind+1] == '{':
+            falseRet.append('#')
+            return falseRet
+
+        #inače generiraj novo stanje
+        staro = ''
+        staro += stanje
+
+        staro = list(staro)
+        prviDio = staro[:ind]
+        prviDio = ''.join(prviDio)
+        del staro[:ind+1]
+        staro = ''.join(staro)
+
+        if stanje[ind+1] == '<':
+            ind2 = staro.find('>')
+            staro = list(staro)
+            staro.insert(ind2+1,'#')
+            staro = ''.join(staro)
+        else:
+            ind2 = staro.find('<')
+            ind4 = staro.find('{')
+            if ind2 != -1:
+                staro = list(staro)
+                staro.insert(ind2,'#')
+                staro = ''.join(staro)
+            elif ind4 != -1:
+                staro = list(staro)
+                staro.insert(ind4,'#')
+                staro = ''.join(staro)
+
+        novo = prviDio+staro
+        return novo
+
+    def nadiStanja(self,stanja):
+        #prima listu stanja i za koje kog nade prijelaz vraca stavlja u listu i konacno vraca listu svih novih stanja
+        #koje je pronasao
+        print stanja
+        ret = []
+        for i in range(len(stanja)):
+            ret.append(self.nadiPrijelaz(stanja[i]))
+
+        print ret
+
+        #pobrisi sve # u retu
+
 
 
 

@@ -6,6 +6,7 @@
 
 import sys
 from enka import Enka
+from dka import Dka
 
 # Ako je prazan vraca 1.
 def jeliPrazan(lista, element):
@@ -108,7 +109,7 @@ def main ():
     dictZapocinje = {}
     print mapa
 
-    #točka će biti #,eps prijelaz $,% znak za kraj (obrnuti T)
+    # # - točka, $ eps, % znak za kraj (obrnuti T)
 
     lsTrenutnihStanja = []
     lista = []
@@ -139,13 +140,29 @@ def main ():
         if primljeno[0] == '#':
             i+=1
             continue
-        print stanja
         #dodaje novonastalu listu listi stanja
         stanja.extend(primljeno)
-        print stanja
         #izlazi iz petlje kad su u listi stanja sva stanja u koje se dolazi eps prijelazom
         #duljina liste se povecava za 1,
         i += 1
+
+    #spremi trenutni skup stanja (kasnije ce trebat za DKA i da se zna di dodat qo/S'
+    stanjaDka = []
+    stanjaDka.append(stanja)
+
+    #makni znak eps tamo di je tocka (#) dosla na kraj
+    for i in range(len(stanja)):
+        pom = stanja[i]
+        broj = pom.find('#$')
+        if broj != -1:
+            pom = pom.replace("#$","#")
+            stanja[i] = pom
+
+
+    novaStanja = enka.nadiStanja(stanja)
+
+
+
 
 
 
