@@ -26,7 +26,6 @@ class Enka(object):
     def nadiEpsPoc(self,stanje):
         #dobiva jedno stanje
         #nalazi sva stanja u koje se prelazi eps prijalzima iz tog stanja (samo prvu razinu)
-        #vraća string svih stanja u koje se prešlo odvojenih znakom '|'
 
         tmp = stanje.split('{')
         lista = list(tmp[1])
@@ -42,10 +41,12 @@ class Enka(object):
         if ind+1 == len(ime):
             falseRet.append('{')
             return falseRet
+
         #ili je poslije nje zavrsni znak
         elif ime[ind+1] != '<':
             falseRet.append('#')
             return falseRet
+
         #ako smo tu u kodu znaci da slijedi nezavrsni znak
         #pogledaj koji je to znak
 
@@ -58,53 +59,6 @@ class Enka(object):
         znak1 = ''.join(znak1)
         #u znak1 je sada znak koji moramo obraditi
 
-
-        #opcija 1
-        """
-        #provjeri ide li nakon njega nezavrsni znak i ako da koji, a prvo vidi je li poslije njega kraj
-        ind = ime.find('#<')
-        znak2 = list(ime)
-        del znak2 [:ind+1]
-        znak2 = ''.join(znak2)
-        ind = znak2.find('>')
-        znak2 = list(znak2)
-
-
-        if ind+1 == len(znak2) or znak2[ind+1] != '<':
-            #u listi ostaju isti znakovi
-            pass
-        else:
-            #u listu dodaj znakove iz skupova praznih znakova i skupa zapocinje (točke 4.c.1,4.c.2 iz udžbenika str. 148)
-            znak2 = ''.join(znak2)
-            ind = znak2.find('>')
-            znak2 = list(znak2)
-            del znak2 [:ind+1]
-            del znak2 [ind+1:]
-            znak2 = ''.join(znak2)
-            #dodaj te znakove u listu... - FALI KOD
-            lista.extend(self.dictZapocinje[znak2])
-
-
-        #opcija 2
-
-        lista = []
-        ind = ime.find('#<')
-        znak2 = list(ime)
-        del znak2 [:ind+1]
-        znak2 = ''.join(znak2)
-        indPom = znak2.find('>')
-        znak2 = list(znak2)
-        print 'znak2'
-        print znak2
-
-        if indPom+1 == len(znak2):
-            #ako nije ništa ostalo u znaku, točka je došla do kraja
-            lista.append('%')
-        else:
-            #inače provjeri skup započinje od zanka2 (ono što je ostalo desno od točke)
-        """
-
-        #opcija 3
         #provjeri ide li nakon njega nezavrsni znak i ako da koji, a prvo vidi je li poslije njega kraj
         ind = ime.find('#<')
         znak2 = list(ime)
@@ -148,15 +102,60 @@ class Enka(object):
         return stanja
 
 
-    def nadiEps(self,stanje):
-        pass
+    def nadiEps(self,stanje,dka):
+        print stanje
+        tmp = stanje.split('{')
+        lista = list(tmp[1])
+        del lista[-1]
+
+        ime = tmp[0]
+
+        #prvo vidi di je točka
+        ind = ime.find('#')
+
+        #je li na kraju,
+        if ind+1 == len(ime):
+            return stanje
+
+        #ako smo dosli do tu znaci da nije na kraju, treba naci eps i zvati funkciju prijelaz za svaki od epsilona
+        stanja = []
+        stanja.append(stanje)
+        i = 0
+        while i < len(stanja):
+            primljeno = []
+            primljeno = self.nadiEpsPoc(stanja[i])
+            if primljeno[0] == '#' or primljeno[0] == '{':
+                i+=1
+                continue
+            #dodaje novonastalu listu listi stanja
+            stanja.extend(primljeno)
+            #izlazi iz petlje kad su u listi stanja sva stanja u koje se dolazi eps prijelazom
+            #duljina liste se povecava za 1,
+            i += 1
+
+        #makni znak eps tamo di je tocka (#) dosla na kraj
+        for i in range(len(stanja)):
+            pom = stanja[i]
+            broj = pom.find('#$')
+            if broj != -1:
+                pom = pom.replace("#$","#")
+                stanja[i] = pom
+
+        for stanje in stanja:
+            received = []
+            received = self.nadiPrijelaz(stanje,stanja,dka)
+            if received[0] == '{':
+                continue
+            else:
+                dka.dodajLStanje(stanja)
+                dka.dodajZnak(received[1])
+                dka.dodajDStanje(received[0])
+
+        return stanja
 
 
 
-
-
-
-    def nadiPrijelaz(self,stanje):
+    def nadiPrijelaz(self,stanje,stanja,dka):
         #funkcija dobiva jedno stanje i vraca jedno stanje u koje je presla zbog procitanog znaka
         #pomaknute tocke, pritom ne mijenja listu
         #dodatno vraca i znak (bilo zavrsni ili nezavrsni) koji je procitala kao drugi clan liste
@@ -201,10 +200,17 @@ class Enka(object):
                 znak = staro[:ind4]
 
         novo = prviDio+staro
+
+        if novo in stanja:
+            falseRet.append('{')
+            return falseRet
+
+        novo = self.nadiEps(novo,dka)
+
         ret =[]
         ret.append(novo)
         ret.append(znak)
-        return novo
+        return ret
 
 
 
