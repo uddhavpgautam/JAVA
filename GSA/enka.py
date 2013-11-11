@@ -23,7 +23,7 @@ class Enka(object):
         stanje += '}'
         return stanje
 
-    def nadiEpsPoc(self,stanje):
+    def nadiEpsPoc(self,stanje,dka):
         #dobiva jedno stanje
         #nalazi sva stanja u koje se prelazi eps prijalzima iz tog stanja (samo prvu razinu)
 
@@ -78,6 +78,7 @@ class Enka(object):
             for item in znakovi:
                 if item in self.listaPraznih:
                    lista.append('%')
+
                 if item in self.zavrsni:
                     lista.append(item)
                 elif item in self.dictZapocinje:
@@ -99,11 +100,21 @@ class Enka(object):
         for i in range(len(lsTrenutnihStanja)):
             lsTrenutnihStanja[i] = lsZnak1 + lsTrenutnihStanja[i]
             stanja.append(self.stvoriStanje(lsTrenutnihStanja[i], lista))
+
+        print stanja
+        for stanje in stanja:
+            tmp = stanje.split('{')
+            lista = list(tmp[1])
+            del lista[-1]
+            ime = tmp[0]
+            indices = [i for i, s in enumerate(dka.prijelazi) if ime in s]
+
+
+
         return stanja
 
 
     def nadiEps(self,stanje,dka):
-        print stanje
         tmp = stanje.split('{')
         lista = list(tmp[1])
         del lista[-1]
@@ -123,7 +134,7 @@ class Enka(object):
         i = 0
         while i < len(stanja):
             primljeno = []
-            primljeno = self.nadiEpsPoc(stanja[i])
+            primljeno = self.nadiEpsPoc(stanja[i],dka)
             if primljeno[0] == '#' or primljeno[0] == '{':
                 i+=1
                 continue
