@@ -8,10 +8,11 @@ from dka import Dka
 class Enka(object):
 
 
-    def __init__(self,mapa,listaPraznih,dictZapocinje):
+    def __init__(self,mapa,listaPraznih,dictZapocinje,zavrsni):
         self.mapa = mapa
         self.listaPraznih = listaPraznih
         self.dictZapocinje = dictZapocinje
+        self.zavrsni = zavrsni
 
     def stvoriStanje(self,ime,lista):
         stanje = ''
@@ -57,6 +58,9 @@ class Enka(object):
         znak1 = ''.join(znak1)
         #u znak1 je sada znak koji moramo obraditi
 
+
+        #opcija 1
+        """
         #provjeri ide li nakon njega nezavrsni znak i ako da koji, a prvo vidi je li poslije njega kraj
         ind = ime.find('#<')
         znak2 = list(ime)
@@ -64,6 +68,8 @@ class Enka(object):
         znak2 = ''.join(znak2)
         ind = znak2.find('>')
         znak2 = list(znak2)
+
+
         if ind+1 == len(znak2) or znak2[ind+1] != '<':
             #u listi ostaju isti znakovi
             pass
@@ -76,6 +82,55 @@ class Enka(object):
             del znak2 [ind+1:]
             znak2 = ''.join(znak2)
             #dodaj te znakove u listu... - FALI KOD
+            lista.extend(self.dictZapocinje[znak2])
+
+
+        #opcija 2
+
+        lista = []
+        ind = ime.find('#<')
+        znak2 = list(ime)
+        del znak2 [:ind+1]
+        znak2 = ''.join(znak2)
+        indPom = znak2.find('>')
+        znak2 = list(znak2)
+        print 'znak2'
+        print znak2
+
+        if indPom+1 == len(znak2):
+            #ako nije ništa ostalo u znaku, točka je došla do kraja
+            lista.append('%')
+        else:
+            #inače provjeri skup započinje od zanka2 (ono što je ostalo desno od točke)
+        """
+
+        #opcija 3
+        #provjeri ide li nakon njega nezavrsni znak i ako da koji, a prvo vidi je li poslije njega kraj
+        ind = ime.find('#<')
+        znak2 = list(ime)
+        del znak2 [:ind+1]
+        znak2 = ''.join(znak2)
+        ind = znak2.find('>')
+        znak2 = list(znak2)
+        lista = []
+        if ind+1 == len(znak2):
+            lista.append('%')
+        else:
+            for i in range(len(znak2)):
+                if znak2[i] == '>':
+                    znak2.insert(i+1,' ')
+            znak2 = ''.join(znak2)
+            znakovi = znak2.split(' ')
+            for item in znakovi:
+                if item in self.listaPraznih:
+                   lista.append('%')
+                if item in self.zavrsni:
+                    lista.append(item)
+                elif item in self.dictZapocinje:
+                    lista.extend(self.dictZapocinje[item])
+
+        #pobrisi duplikate
+        lista = list(set(lista))
 
         #u znak1 je sada znak za koji moramo stvoriti nova stanja, a u listi je ono što im pridružujemo
 
