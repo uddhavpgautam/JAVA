@@ -21,28 +21,8 @@ def jeliZavrsan(zavrsni, znak):
         return 0
     else:
         return 1
-# Poziva se sa parametrima liste praznih znakova, listom relacija, mapom sa
-# prijelazima, te listom zavrsnih znakova.
-# Funkcija provjerava jeli prvi znak eps, ako nije provjerava jeli prvi znak
-# zavrsan, prazan, te prema tome odredjuje spada li on u listu relacija.
-# Gradivo na 101. stranici udzbenika:
-# Racunanje relacije ZapocinjeIzvravnoZnakom
-def zapocinjeIzravnoZnakom(listaP, listaR, mapa, zavrsni):
-    for znak in mapa:
-        listaR[znak] = []
-        for item in mapa[znak]:
-            for element in item:
-                if element == '$':
-                    break
-                if jeliPrazan(listaP, element) == 0 and jeliZavrsan(zavrsni, item) == 0:
-                    listaR[znak].append(element)
-                    break
-                elif jeliPrazan(listaP, element) == 0 and jeliZavrsan(zavrsni, item) == 1:
-                    listaR[znak].append(element)
-                    break
-                elif jeliPrazan(listaP, element) == 1:
-                    listaR[znak].append(element)
-                
+
+
 
 def main ():
     #print "HelloWorld"
@@ -91,21 +71,13 @@ def main ():
             tmp = ''.join(red)
             desnaStrana = tmp.split(' ')
             mapa[lijevaStrana].append(desnaStrana)
-    
-    listaPraznihZnakova = []
+
+    listaPraznih = []
     # Popuni listu praznih znakova.
     for znak in mapa:
         for item in mapa[znak]:
             if item[0] == '$':
                 listaPraznihZnakova.append(znak)
-    
-    # Provjeravamo krajnje lijeve znakove desne strane.
-    relacijaPrva = {}
-    zapocinjeIzravnoZnakom(listaPraznihZnakova, relacijaPrva, mapa, zavrsni)
-    #print relacijaPrva
-
-
-
 
     listaPraznih = []
     dictZapocinje = {}
