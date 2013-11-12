@@ -14,12 +14,20 @@ class Dka(object):
         pass
 
     def dodajLStanje(self,stanja):
-        self.prijelazi.append(stanja)
+        if isinstance(stanja,str):
+            self.prijelazi.append(stanja)
+        else:
+            for stanje in stanja:
+                self.prijelazi.append(stanje)
         self.prijelazi.append(',')
     def dodajZnak(self,znak):
         self.prijelazi.append(znak)
         self.prijelazi.append('->')
     def dodajDStanje(self,stanja):
-        self.prijelazi.append(stanja)
+        if isinstance(stanja,str):
+            self.prijelazi.append(stanja)
+        else:
+            for stanje in stanja:
+                self.prijelazi.append(stanje)
         self.prijelazi.append('|')
 
