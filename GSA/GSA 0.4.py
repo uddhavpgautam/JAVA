@@ -232,7 +232,15 @@ def main ():
     tmp = ''.join(dka.prijelazi)
     tmp1 = tmp.split('|')
     del tmp1[-1]
-    print tmp1
+    for item in tmp1:
+        print item
+        #razdijeli lijevi i desni dio i rjesi se duplikata unutaar retka
+        tmp2 = item.split('INTO')
+        lijevo = tmp2[0]
+        desno = tmp2[1]
+        print lijevo
+        print desno
+
 
 
 

@@ -115,7 +115,15 @@ class Enka(object):
             lsTrenutnihStanja[i] = lsZnak1 + lsTrenutnihStanja[i]
             stanja.append(self.stvoriStanje(lsTrenutnihStanja[i], lista))
 
+        #rješava se #$
+        for i in range(len(stanja)):
+            pom = stanja[i]
+            broj = pom.find('#$')
+            if broj != -1:
+                pom = pom.replace("#$","#")
+                stanja[i] = pom
 
+        #sređuje da liste budu ažurirane kako treba
         for j in range(len(stanja)):
             tmp = stanja[j].split('{')
             ime = tmp[0]
