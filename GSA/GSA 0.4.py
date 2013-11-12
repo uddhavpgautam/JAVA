@@ -230,6 +230,10 @@ def main ():
 
     print dka.prijelazi
 
+    tmp = ''.join(dka.prijelazi)
+    tmp1 = tmp.split('|')
+    del tmp1[-1]
+    print tmp1
 
 
 
