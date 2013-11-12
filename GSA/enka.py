@@ -124,9 +124,10 @@ class Enka(object):
                 stanja[i] = pom
 
         #sređuje da liste budu ažurirane kako treba
+
         for j in range(len(stanja)):
             tmp = stanja[j].split('{')
-            ime = tmp[0]
+            ime = tmp[0]+'{'
             for i in range(len(dka.prijelazi)):
                 if ime in dka.prijelazi[i]:
                     stanja[j] = dka.prijelazi[i]
@@ -179,22 +180,21 @@ class Enka(object):
             received = self.nadiPrijelaz(stanje,stanja,dka)
             if received[0] == '{':
                 continue
-            else:
-                dka.dodajLStanje(stanja)
-                dka.dodajZnak(received[1])
-                dka.dodajDStanje(received[0])
-                if isinstance(received[0], str):
-                    potpuna = self.jeLipotpuna(received[0])
-                    if potpuna:
-                        pass
-                    else:
-                        dka.dodajLStanje(received[0])
-                        dka.dodajZnak(received[1])
-                        dka.dodajDStanje(received[0])
+            dka.dodajLStanje(stanja)
+            dka.dodajZnak(received[1])
+            dka.dodajDStanje(received[0])
+            if isinstance(received[0], str):
+                potpuna = self.jeLipotpuna(received[0])
+                if potpuna:
+                    pass
                 else:
                     dka.dodajLStanje(received[0])
                     dka.dodajZnak(received[1])
                     dka.dodajDStanje(received[0])
+            else:
+                dka.dodajLStanje(received[0])
+                dka.dodajZnak(received[1])
+                dka.dodajDStanje(received[0])
 
         return stanja
 
