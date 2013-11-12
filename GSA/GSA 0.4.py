@@ -12,20 +12,6 @@ from dka import Dka
 from TablicaAkcija import TablicaAkcija
 from TablicaNovoStanje import TablicaNovoStanje
 
-def jeLipotpuna(stanje):
-        tmp = stanje.split('{')
-
-        ime = tmp[0]
-
-        #prvo vidi di je točka
-        ind = ime.find('#')
-
-        #je li na kraju,
-        if ind+1 == len(ime):
-            return 1
-        else:
-            return 0
-
 
 def nadiZvjezdice(znak,dict):
     #prima liejvi znak i dictIzravnoZnakom, a vraća listu (desnu stranu jedinice i zvijedzdice)
@@ -44,7 +30,7 @@ def main ():
     #print "HelloWorld"
     #print "Ovo je promjena"
 
-    ulaz = open('ulaznaKnjiga','r')
+    ulaz = open('Ulazna.txt','r')
 
     #učitavanje prva 3 reda
 
@@ -230,16 +216,22 @@ def main ():
         dka.dodajZnak(received[1])
         dka.dodajDStanje(received[0])
         if isinstance(received[0], str):
-            potpuna = jeLipotpuna(received[0])
-            if not potpuna:
+            potpuna = enka.jeLipotpuna(received[0])
+            if potpuna:
                 pass
             else:
                 dka.dodajLStanje(received[0])
                 dka.dodajZnak(received[1])
                 dka.dodajDStanje(received[0])
+        else:
+            dka.dodajLStanje(received[0])
+            dka.dodajZnak(received[1])
+            dka.dodajDStanje(received[0])
 
     print dka.prijelazi
-
+    for item in dka.prijelazi:
+        tmp = ''.join(item)
+        print tmp
 
 
 
