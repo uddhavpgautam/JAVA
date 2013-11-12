@@ -30,7 +30,7 @@ def main ():
     #print "HelloWorld"
     #print "Ovo je promjena"
 
-    ulaz = open('ulaznaKnjiga','r')
+    ulaz = open('Ulazna.txt','r')
 
     #učitavanje prva 3 reda
 
@@ -203,7 +203,7 @@ def main ():
     print mapa
     print stanja
 
-    #sada imam nekakvu pocetnu listu stanja u kojima sam trenutno
+    #sada imam nekakvu pocetnu listu stanja u kojima sam trenutno (u nju sam usao cim sam procitao pocetni nezavrsni znak)
     #idem od svih pocetnih stanja
 
     for stanje in stanja:

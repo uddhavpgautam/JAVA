@@ -175,10 +175,12 @@ class Enka(object):
                 pom = pom.replace("#$","#")
                 stanja[i] = pom
 
-        for stanje in stanja:
+        i = 0
+        while i < len(stanja):
             received = []
-            received = self.nadiPrijelaz(stanje,stanja,dka)
+            received = self.nadiPrijelaz(stanja[i],stanja,dka)
             if received[0] == '{':
+                i += 1
                 continue
             dka.dodajLStanje(stanja)
             dka.dodajZnak(received[1])
