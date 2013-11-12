@@ -229,12 +229,8 @@ def main ():
         dka.dodajLStanje(stanja)
         dka.dodajZnak(received[1])
         dka.dodajDStanje(received[0])
-        print received
-        print type(received[0])
-        print received[1]
-        if type(received[0]) == 'str':
+        if isinstance(received[0], str):
             potpuna = jeLipotpuna(received[0])
-            print potpuna
             if not potpuna:
                 pass
             else:

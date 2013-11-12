@@ -23,6 +23,20 @@ class Enka(object):
         stanje += '}'
         return stanje
 
+    def jeLipotpuna(self,stanje):
+        tmp = stanje.split('{')
+
+        ime = tmp[0]
+
+        #prvo vidi di je točka
+        ind = ime.find('#')
+
+        #je li na kraju,
+        if ind+1 == len(ime):
+            return 1
+        else:
+            return 0
+
     def nadiEpsPoc(self,stanje,dka):
         #dobiva jedno stanje
         #nalazi sva stanja u koje se prelazi eps prijalzima iz tog stanja (samo prvu razinu)
@@ -162,6 +176,14 @@ class Enka(object):
                 dka.dodajLStanje(stanja)
                 dka.dodajZnak(received[1])
                 dka.dodajDStanje(received[0])
+                if isinstance(received[0], str):
+                    potpuna = self.jeLipotpuna(received[0])
+                    if not potpuna:
+                        pass
+                    else:
+                        dka.dodajLStanje(received[0])
+                        dka.dodajZnak(received[1])
+                        dka.dodajDStanje(received[0])
 
         return stanja
 
