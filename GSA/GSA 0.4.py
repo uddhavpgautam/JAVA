@@ -177,7 +177,13 @@ def main ():
         #duljina liste se povecava za 1,
         i += 1
 
-
+    #makni znak eps tamo di je tocka (#) dosla na kraj
+    for i in range(len(stanja)):
+        pom = stanja[i]
+        broj = pom.find('#$')
+        if broj != -1:
+            pom = pom.replace("#$","#")
+            stanja[i] = pom
 
 
     #dodaj novu produkciju u mapu
@@ -192,13 +198,6 @@ def main ():
     dka.dodajZnak(pocetni_nezavrsni)
     dka.dodajDStanje(stanja)
 
-    #makni znak eps tamo di je tocka (#) dosla na kraj
-    for i in range(len(stanja)):
-        pom = stanja[i]
-        broj = pom.find('#$')
-        if broj != -1:
-            pom = pom.replace("#$","#")
-            stanja[i] = pom
 
     print dictZapocinjeZnakom
     print mapa
