@@ -229,11 +229,9 @@ def main ():
             dka.dodajDStanje(received[0])
 
     print dka.prijelazi
-    """
-    for item in dka.prijelazi:
-        tmp = ''.join(item)
-        print tmp
-    """
+
+
+
 
 
 

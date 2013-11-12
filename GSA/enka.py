@@ -115,26 +115,15 @@ class Enka(object):
             lsTrenutnihStanja[i] = lsZnak1 + lsTrenutnihStanja[i]
             stanja.append(self.stvoriStanje(lsTrenutnihStanja[i], lista))
 
-        """
+
         for j in range(len(stanja)):
             tmp = stanja[j].split('{')
             ime = tmp[0]
             for i in range(len(dka.prijelazi)):
-                if dka.prijelazi[i] == '->':
-                    tmp = list(dka.prijelazi[i+1])
-                    indices = [k for k, s in enumerate(tmp) if ime in s]
-                    print stanja[j]
-                    print dka.prijelazi[i+1]
-                    print indices
-                    print type(indices)
-                    print len(indices)
-                    if len(indices) >= 1:
-                        ind = int(indices[0])
-                        print ind
-                        print len(dka.prijelazi[i+1])
-                        print dka.prijelazi[i+1]
-                        stanja[j] = dka.prijelazi[i+1][ind]
-            """
+                if ime in dka.prijelazi[i]:
+                    stanja[j] = dka.prijelazi[i]
+                    break
+
 
         return stanja
 
