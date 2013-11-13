@@ -30,7 +30,7 @@ def main ():
     #print "HelloWorld"
     #print "Ovo je promjena"
 
-    ulaz = open('ulaznaKnjiga','r')
+    ulaz = open('Ulazna.txt','r')
 
     #učitavanje prva 3 reda
 
