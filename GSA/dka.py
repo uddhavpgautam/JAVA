@@ -25,7 +25,7 @@ class Dka(object):
         self.prijelazi.append('BEL')
     def dodajZnak(self,znak):
         self.prijelazi.append(znak)
-        self.prijelazi.append('')
+        self.prijelazi.append('GOTO')
     def dodajDStanje(self,stanja):
         if isinstance(stanja,str):
             self.prijelazi.append(stanja)

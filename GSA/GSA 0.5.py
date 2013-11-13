@@ -235,6 +235,7 @@ def main ():
     tmp1 = list(set(tmp1))
   #  for item in tmp1:
   #      print item
+
     dka.prijelazi = []
     dka.prijelazi = tmp1
     for item in dka.prijelazi:
