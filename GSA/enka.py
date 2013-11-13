@@ -80,7 +80,7 @@ class Enka(object):
         znak2 = ''.join(znak2)
         ind = znak2.find('>')
         znak2 = list(znak2)
-        lista = []
+        #lista = []
         if ind+1 == len(znak2):
             lista.append('%')
         else:
@@ -208,6 +208,8 @@ class Enka(object):
         #dodatno vraca i znak (bilo zavrsni ili nezavrsni) koji je procitala kao drugi clan liste
         ind = stanje.find('#')
         falseRet = []
+
+        print stanje
 
         #ako nema prijelaza
         if stanje[ind+1] == '{':
