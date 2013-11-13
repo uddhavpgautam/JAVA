@@ -42,8 +42,8 @@ class Enka(object):
         #nalazi sva stanja u koje se prelazi eps prijalzima iz tog stanja (samo prvu razinu)
 
         tmp = stanje.split('{')
-        lista = list(tmp[1])
-        del lista[-1]
+        listaStara = list(tmp[1])
+        del listaStara[-1]
 
         ime = tmp[0]
 
@@ -61,42 +61,52 @@ class Enka(object):
             falseRet.append('#')
             return falseRet
 
-        #ako smo tu u kodu znaci da slijedi nezavrsni znak
+        #ako smo tu u kodu znaci da slijedi nezavrsni znak => bit ce eps prijelaza
         #pogledaj koji je to znak
 
         znak1 = list(ime)
         del znak1 [:ind+1]
         znak1 = ''.join(znak1)
-        ind = znak1.find('>')
+        ind1 = znak1.find('>')
+
+        #ako je tocka nakon pomaka na kraju lista ce ostati ista (lista = listaStara)
+        #jer je eps...
+        lista = []
+        if ind1+1 == len(znak1):
+            lista = list(listaStara)
+
+        #ako je nakon točke zavrsni znak dodaj ga u listu
+        #jer je on sam svoj skup započinje
+        elif znak1[ind1+1] in self.zavrsni:
+            lista.append(znak1[ind1+1])
+
+        #na kraju ako nije ovo od prije znaci da je nezavrsni znak na redu
+        else:
+            #nadi koji je to nezavrsni znak i u listu ubaci zapocinje skup
+            znak1 = list(znak1)
+            znak2 = znak1[:ind1+1]
+            znak2 = ''.join(znak2)
+            ind2 = znak2.find('>')
+            znak2 = list(znak2)
+            del znak2[ind2+1:]
+            znak2 = ''.join(znak2)
+            #u znak2 je sada znak koji je 2; poslije točke trenutno
+            lista.append(self.dictZapocinje[znak2])
+
+
+
         znak1 = list(znak1)
-        del znak1 [ind+1:]
+        del znak1 [ind1+1:]
         znak1 = ''.join(znak1)
         #u znak1 je sada znak koji moramo obraditi
 
-        #provjeri ide li nakon njega nezavrsni znak i ako da koji, a prvo vidi je li poslije njega kraj
-        ind = ime.find('#<')
-        znak2 = list(ime)
-        del znak2 [:ind+1]
-        znak2 = ''.join(znak2)
-        ind = znak2.find('>')
-        znak2 = list(znak2)
-        #lista = []
-        if ind+1 == len(znak2):
-            lista.append('%')
-        else:
-            for i in range(len(znak2)):
-                if znak2[i] == '>':
-                    znak2.insert(i+1,' ')
-            znak2 = ''.join(znak2)
-            znakovi = znak2.split(' ')
-            for item in znakovi:
-                if item in self.listaPraznih:
-                   lista.append('%')
+        #dakle znak koji ce bit s lijeve strane imamo, sad pogledaj kakvu ces
+        #listu poslati da se nadoda u novo stanje
 
-                if item in self.zavrsni:
-                    lista.append(item)
-                elif item in self.dictZapocinje:
-                    lista.extend(self.dictZapocinje[item])
+
+
+
+
 
         #pobrisi duplikate
         lista = list(set(lista))
