@@ -195,26 +195,26 @@ class Enka(object):
                 stanja[i] = pom
 
 
-            for stanje in stanja:
-                received = []
-                received = self.nadiPrijelaz(stanje,stanja,dka)
-                if received[0] == '{':
-                    continue
-                dka.dodajLStanje(stanja)
-                dka.dodajZnak(received[1])
-                dka.dodajDStanje(received[0])
-                if isinstance(received[0], str):
-                    potpuna = self.jeLipotpuna(received[0])
-                    if potpuna:
-                        pass
-                    else:
-                        dka.dodajLStanje(received[0])
-                        dka.dodajZnak(received[1])
-                        dka.dodajDStanje(received[0])
+        for stanje in stanja:
+            received = []
+            received = self.nadiPrijelaz(stanje,stanja,dka)
+            if received[0] == '{':
+                continue
+            dka.dodajLStanje(stanja)
+            dka.dodajZnak(received[1])
+            dka.dodajDStanje(received[0])
+            if isinstance(received[0], str):
+                potpuna = self.jeLipotpuna(received[0])
+                if potpuna:
+                    pass
                 else:
                     dka.dodajLStanje(received[0])
                     dka.dodajZnak(received[1])
                     dka.dodajDStanje(received[0])
+            else:
+                dka.dodajLStanje(received[0])
+                dka.dodajZnak(received[1])
+                dka.dodajDStanje(received[0])
 
         return stanja
 
@@ -226,8 +226,6 @@ class Enka(object):
         #dodatno vraca i znak (bilo zavrsni ili nezavrsni) koji je procitala kao drugi clan liste
         ind = stanje.find('#')
         falseRet = []
-
-        print stanje
 
         #ako nema prijelaza
         if stanje[ind+1] == '{':
