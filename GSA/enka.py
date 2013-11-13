@@ -40,7 +40,6 @@ class Enka(object):
     def nadiEpsPoc(self,stanje,dka):
         #dobiva jedno stanje
         #nalazi sva stanja u koje se prelazi eps prijalzima iz tog stanja (samo prvu razinu)
-        print stanje
         tmp = stanje.split('{')
         listaStara = list(tmp[1])
         del listaStara[-1]
@@ -86,13 +85,11 @@ class Enka(object):
             znak1 = list(znak1)
 
             znak2 = znak1[ind1+1:]
-            print znak2
             znak2 = ''.join(znak2)
             ind2 = znak2.find('>')
             #sad pogledaj je li taj preostali niz ide u epsilon
             #jedino ako na 3. mjestu nema nista mozda moze ici u epsilon
 
-            print znak1
             if ind2+1 == len(znak2):
                 ide = 1
 
@@ -114,7 +111,6 @@ class Enka(object):
 
         znak1 = list(znak1)
         del znak1 [ind1+1:]
-        print znak1
         znak1 = ''.join(znak1)
         #u znak1 je sada znak koji moramo obraditi
 
@@ -198,28 +194,27 @@ class Enka(object):
                 pom = pom.replace("#$","#")
                 stanja[i] = pom
 
-        i = 0
-        while i < len(stanja):
-            received = []
-            received = self.nadiPrijelaz(stanja[i],stanja,dka)
-            if received[0] == '{':
-                i += 1
-                continue
-            dka.dodajLStanje(stanja)
-            dka.dodajZnak(received[1])
-            dka.dodajDStanje(received[0])
-            if isinstance(received[0], str):
-                potpuna = self.jeLipotpuna(received[0])
-                if potpuna:
-                    pass
+
+            for stanje in stanja:
+                received = []
+                received = self.nadiPrijelaz(stanje,stanja,dka)
+                if received[0] == '{':
+                    continue
+                dka.dodajLStanje(stanja)
+                dka.dodajZnak(received[1])
+                dka.dodajDStanje(received[0])
+                if isinstance(received[0], str):
+                    potpuna = self.jeLipotpuna(received[0])
+                    if potpuna:
+                        pass
+                    else:
+                        dka.dodajLStanje(received[0])
+                        dka.dodajZnak(received[1])
+                        dka.dodajDStanje(received[0])
                 else:
                     dka.dodajLStanje(received[0])
                     dka.dodajZnak(received[1])
                     dka.dodajDStanje(received[0])
-            else:
-                dka.dodajLStanje(received[0])
-                dka.dodajZnak(received[1])
-                dka.dodajDStanje(received[0])
 
         return stanja
 
