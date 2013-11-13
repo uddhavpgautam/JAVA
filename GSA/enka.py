@@ -40,7 +40,7 @@ class Enka(object):
     def nadiEpsPoc(self,stanje,dka):
         #dobiva jedno stanje
         #nalazi sva stanja u koje se prelazi eps prijalzima iz tog stanja (samo prvu razinu)
-
+        print stanje
         tmp = stanje.split('{')
         listaStara = list(tmp[1])
         del listaStara[-1]
@@ -73,7 +73,7 @@ class Enka(object):
         #jer je eps...
         lista = []
         if ind1+1 == len(znak1):
-            lista = list(listaStara)
+            lista.extend(listaStara)
 
         #ako je nakon točke zavrsni znak dodaj ga u listu
         #jer je on sam svoj skup započinje
@@ -84,29 +84,42 @@ class Enka(object):
         else:
             #nadi koji je to nezavrsni znak i u listu ubaci zapocinje skup
             znak1 = list(znak1)
-            znak2 = znak1[:ind1+1]
+
+            znak2 = znak1[ind1+1:]
+            print znak2
             znak2 = ''.join(znak2)
             ind2 = znak2.find('>')
+            #sad pogledaj je li taj preostali niz ide u epsilon
+            #jedino ako na 3. mjestu nema nista mozda moze ici u epsilon
+
+            print znak1
+            if ind2+1 == len(znak2):
+                ide = 1
+
+            #nema 3. znaka provjerit ces ide li u epsilon
+            else:
+                ide = 0
+
+
             znak2 = list(znak2)
             del znak2[ind2+1:]
             znak2 = ''.join(znak2)
             #u znak2 je sada znak koji je 2; poslije točke trenutno
-            lista.append(self.dictZapocinje[znak2])
+            lista.extend(self.dictZapocinje[znak2])
 
-
+            #ako ima mogucnost da ode u epsilon provjeri, i ako je prazan
+            #dodaj staru listu u novu
+            if ide and znak2 in self.listaPraznih:
+                lista.extend(listaStara)
 
         znak1 = list(znak1)
         del znak1 [ind1+1:]
+        print znak1
         znak1 = ''.join(znak1)
         #u znak1 je sada znak koji moramo obraditi
 
         #dakle znak koji ce bit s lijeve strane imamo, sad pogledaj kakvu ces
         #listu poslati da se nadoda u novo stanje
-
-
-
-
-
 
         #pobrisi duplikate
         lista = list(set(lista))
