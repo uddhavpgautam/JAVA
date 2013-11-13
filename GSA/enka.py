@@ -219,7 +219,6 @@ class Enka(object):
         return stanja
 
 
-
     def nadiPrijelaz(self,stanje,stanja,dka):
         #funkcija dobiva jedno stanje i vraca jedno stanje u koje je presla zbog procitanog znaka
         #pomaknute tocke, pritom ne mijenja listu

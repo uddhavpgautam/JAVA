@@ -2,22 +2,18 @@
 %T a b c d e f
 %Syn a
 <A>
- <B> <C> C
-<A>
- e <D> <B>
+ <B> <C> c
 <B>
  $
-<B>
  b <C> <D> <E>
+<A>
+ e <D> <B>
 <C>
  <D> a <B>
-<C>
  c a
 <D>
  $
-<D>
  d <D>
 <E>
  e <A> f
-<E>
  c
