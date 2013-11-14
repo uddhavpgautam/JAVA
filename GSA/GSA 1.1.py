@@ -145,9 +145,6 @@ def main ():
 
     # # - točka, $ eps, % znak za kraj (obrnuti T)
 
-    #stvori dka
-    dka = Dka()
-
     enka = Enka(mapa,listaPraznih,dictZapocinje,zavrsni)
 
     stanja = []
@@ -160,7 +157,7 @@ def main ():
         primljenoE = []
         primljenoPiZnak = []
 
-        primljenoPiZnak = enka.nadiPrijelaz(stanja[i],stanja,dka)
+        primljenoPiZnak = enka.nadiPrijelaz(stanja[i])
         if primljenoPiZnak[0] == '{':
             #nema prijelaza
             pass
@@ -177,7 +174,7 @@ def main ():
             if primljenoPiZnak[0] not in stanja:
                 stanja.append(primljenoPiZnak[0])
 
-        primljenoE = enka.nadiEpsPoc(stanja[i],dka)
+        primljenoE = enka.nadiEpsPoc(stanja[i],prijelazi)
         if primljenoE[0] == '#' or primljenoE[0] == '{':
             #nema epsilon prijelaza
             pass
@@ -195,9 +192,13 @@ def main ():
                     stanja.append(stanje)
         i += 1
 
-    print mapa
-    print prijelazi
-    print stanja
+    del prijelazi[-1]
+
+    dka = Dka(prijelazi,stanja)
+
+    dka.stvoriDka()
+
+
 
 
 if __name__ == '__main__':

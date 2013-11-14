@@ -37,7 +37,7 @@ class Enka(object):
         else:
             return 0
 
-    def nadiEpsPoc(self,stanje,dka):
+    def nadiEpsPoc(self,stanje,prijelazi):
         #dobiva jedno stanje
         #nalazi sva stanja u koje se prelazi eps prijalzima iz tog stanja (samo prvu razinu)
         tmp = stanje.split('{')
@@ -147,77 +147,13 @@ class Enka(object):
         for j in range(len(stanja)):
             tmp = stanja[j].split('{')
             ime = tmp[0]+'{'
-            for i in range(len(dka.prijelazi)):
-                if ime in dka.prijelazi[i]:
-                    stanja[j] = dka.prijelazi[i]
+            for i in range(len(prijelazi)):
+                if ime in prijelazi[i]:
+                    stanja[j] = prijelazi[i]
                     break
         return stanja
 
-
-    def nadiEps(self,stanje,dka):
-        tmp = stanje.split('{')
-        lista = list(tmp[1])
-        del lista[-1]
-
-        ime = tmp[0]
-
-        #prvo vidi di je točka
-        ind = ime.find('#')
-
-        #je li na kraju,
-        if ind+1 == len(ime):
-            return stanje
-
-        #ako smo dosli do tu znaci da nije na kraju, treba naci eps i zvati funkciju prijelaz za svaki od epsilona
-        stanja = []
-        stanja.append(stanje)
-        i = 0
-        while i < len(stanja):
-            primljeno = []
-            primljeno = self.nadiEpsPoc(stanja[i],dka)
-            if primljeno[0] == '#' or primljeno[0] == '{':
-                i+=1
-                continue
-            #dodaje novonastalu listu listi stanja
-            stanja.extend(primljeno)
-            #izlazi iz petlje kad su u listi stanja sva stanja u koje se dolazi eps prijelazom
-            #duljina liste se povecava za 1,
-            i += 1
-
-        #makni znak eps tamo di je tocka (#) dosla na kraj
-        for i in range(len(stanja)):
-            pom = stanja[i]
-            broj = pom.find('#$')
-            if broj != -1:
-                pom = pom.replace("#$","#")
-                stanja[i] = pom
-
-
-        for stanje in stanja:
-            received = []
-            received = self.nadiPrijelaz(stanje,stanja,dka)
-            if received[0] == '{':
-                continue
-            dka.dodajLStanje(stanja)
-            dka.dodajZnak(received[1])
-            dka.dodajDStanje(received[0])
-            if isinstance(received[0], str):
-                potpuna = self.jeLipotpuna(received[0])
-                if potpuna:
-                    pass
-                else:
-                    dka.dodajLStanje(received[0])
-                    dka.dodajZnak(received[1])
-                    dka.dodajDStanje(received[0])
-            else:
-                dka.dodajLStanje(received[0])
-                dka.dodajZnak(received[1])
-                dka.dodajDStanje(received[0])
-
-        return stanja
-
-
-    def nadiPrijelaz(self,stanje,stanja,dka):
+    def nadiPrijelaz(self,stanje):
         #funkcija dobiva jedno stanje i vraca jedno stanje u koje je presla zbog procitanog znaka
         #pomaknute tocke, pritom ne mijenja listu
         #dodatno vraca i znak (bilo zavrsni ili nezavrsni) koji je procitala kao drugi clan liste
