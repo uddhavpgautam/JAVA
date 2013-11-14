@@ -263,13 +263,6 @@ class Enka(object):
 
         novo = prviDio+staro
 
-        if novo in stanja:
-            falseRet.append('{')
-            return falseRet
-
-        #novo = self.nadiEps(novo,dka)
-
-
         ret =[]
         ret.append(novo)
         ret.append(znak)

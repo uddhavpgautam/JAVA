@@ -30,7 +30,7 @@ def main ():
     #print "HelloWorld"
     #print "Ovo je promjena"
 
-    ulaz = open('Ulazna.txt','r')
+    ulaz = open('ulaznaKnjiga','r')
 
     #učitavanje prva 3 reda
 
@@ -165,7 +165,7 @@ def main ():
             #nema prijelaza
             pass
         else:
-            #dodaj u listu prijelaza staro stanje, znak i novo stanje
+            #dodaj u listu prijelaza staro stanje, znak i novo stanje ako
             prijelazi.append(stanja[i])
             prijelazi.append(',')
             prijelazi.append(primljenoPiZnak[1])
@@ -173,8 +173,9 @@ def main ():
             prijelazi.append(primljenoPiZnak[0])
             prijelazi.append('|')
 
-            #u listu stanja dodaj novo stanje
-            stanja.append(primljenoPiZnak[0])
+            #u listu stanja dodaj novo stanje samo ako vec nije u stanju
+            if primljenoPiZnak[0] not in stanja:
+                stanja.append(primljenoPiZnak[0])
 
         primljenoE = enka.nadiEpsPoc(stanja[i],dka)
         if primljenoE[0] == '#' or primljenoE[0] == '{':
@@ -190,61 +191,13 @@ def main ():
                 prijelazi.append(stanje)
                 prijelazi.append('|')
 
-            #ima epsilon prijelaza, prosiri stanja
-            stanja.extend(primljenoE)
-
-
+                if stanje not in stanja:
+                    stanja.append(stanje)
         i += 1
 
-    #makni znak eps tamo di je tocka (#) dosla na kraj
-    for i in range(len(stanja)):
-        pom = stanja[i]
-        broj = pom.find('#$')
-        if broj != -1:
-            pom = pom.replace("#$","#")
-            stanja[i] = pom
-
-
-    #sada imam nekakvu pocetnu listu stanja u kojima sam trenutno (u nju sam usao cim sam procitao pocetni nezavrsni znak)
-    #idem od svih pocetnih stanja
-
     print mapa
+    print prijelazi
     print stanja
-
-    for stanje in stanja:
-        received = []
-        received = enka.nadiPrijelaz(stanje,stanja,dka)
-        if received[0] == '{':
-            continue
-        dka.dodajLStanje(stanja)
-        dka.dodajZnak(received[1])
-        dka.dodajDStanje(received[0])
-        if isinstance(received[0], str):
-            potpuna = enka.jeLipotpuna(received[0])
-            if potpuna:
-                pass
-            else:
-                dka.dodajLStanje(received[0])
-                dka.dodajZnak(received[1])
-                dka.dodajDStanje(received[0])
-        else:
-            dka.dodajLStanje(received[0])
-            dka.dodajZnak(received[1])
-            dka.dodajDStanje(received[0])
-
-    print dka.prijelazi
-
-    tmp = ''.join(dka.prijelazi)
-    tmp1 = tmp.split('|')
-    del tmp1[-1]
-    tmp1 = list(set(tmp1))
-  #  for item in tmp1:
-  #      print item
-
-    dka.prijelazi = []
-    dka.prijelazi = tmp1
-    for item in dka.prijelazi:
-        print item
 
 
 if __name__ == '__main__':
