@@ -156,15 +156,17 @@ def main ():
 
     i = 0
     while i < len(stanja):
-        primljeno = []
-        primljeno = enka.nadiEpsPoc(stanja[i],dka)
+        primljenoE = []
+        primljenoPiZnak = []
+        primljenoE = enka.nadiEpsPoc(stanja[i],dka)
         if primljeno[0] == '#' or primljeno[0] == '{':
-            i+=1
-            continue
-        #dodaje novonastalu listu listi stanja
-        stanja.extend(primljeno)
-        #izlazi iz petlje kad su u listi stanja sva stanja u koje se dolazi eps prijelazom
-        #duljina liste se povecava za 1,
+            #nema epsilon prijelaza
+            pass
+        else:
+            #ima epsilon prijelaza, prosiri stanja
+            stanja.extend(primljenoE)
+        primljenoPiZnak = enka.nadiPrijelaz(stanja[i],stanja,dka)
+
         i += 1
 
     #makni znak eps tamo di je tocka (#) dosla na kraj

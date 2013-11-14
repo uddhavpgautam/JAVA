@@ -151,8 +151,6 @@ class Enka(object):
                 if ime in dka.prijelazi[i]:
                     stanja[j] = dka.prijelazi[i]
                     break
-
-
         return stanja
 
 
@@ -269,7 +267,8 @@ class Enka(object):
             falseRet.append('{')
             return falseRet
 
-        novo = self.nadiEps(novo,dka)
+        #novo = self.nadiEps(novo,dka)
+
 
         ret =[]
         ret.append(novo)
