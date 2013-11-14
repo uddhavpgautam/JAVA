@@ -152,22 +152,11 @@ def main ():
     pocetnoStanje = '<NoviNezZnak>->#'+pocetni_nezavrsni+'{%}'
     stanja.append(pocetnoStanje)
 
-    dictEps = {}
+    oznacena = []
+    stanjaDKA = []
 
     i = 0
     while i < len(stanja):
-        kljuc = ''
-        for key in dictEps:
-            if stanja[i] in dictEps[key]:
-                dictEps[key].append(stanja[i])
-                kljuc = key #svaki eps prijelaz iz trenutnog stanja cemo dodat ovom starom stanju
-                break
-        if kljuc == '':
-            #inale kljuc postaje trenutno stanje i ako bude eps prijelaza na
-            #njegov value ce se popuniti, a ako ne bude epsilon prijelaza
-            #lista na mejstu kljuc ce ostati prazna
-            kljuc = stanja[i]
-            dictEps[kljuc] = []
         primljenoE = []
         primljenoPiZnak = []
 
@@ -188,48 +177,44 @@ def main ():
             if primljenoPiZnak[0] not in stanja:
                 stanja.append(primljenoPiZnak[0])
 
-        primljenoE = enka.nadiEpsPoc(stanja[i],prijelazi)
-        if primljenoE[0] == '#' or primljenoE[0] == '{':
-            #nema epsilon prijelaza
+        if stanja[i] in oznacena:
+            #ne moram dodavati stanja u stanjaDKA, niti traziti eps
+            #jer su stanja u koja se ide iz ovog stanja vec nadena i spremljena u
+            #listu stanja
             pass
         else:
-            #u prijelaze dodaj primljena stanja
-            for stanje in primljenoE:
-                prijelazi.append(stanja[i])
-                prijelazi.append(',')
-                prijelazi.append('$')
-                prijelazi.append('BEL')
-                prijelazi.append(stanje)
-                prijelazi.append('|')
+            primljenoE = enka.nadiEps()(stanja[i],prijelazi)
+            tmp = []
+            tmp.append(stanja[i])
+            oznacena.append(stanja[i])
 
-                if stanje not in stanja:
-                    stanja.append(stanje)
+            if primljenoE[0] == '#' or primljenoE[0] == '{':
+                #nema epsilon prijelaza
+                pass
+            else:
+                #u prijelaze dodaj primljena stanja
+                for stanje in primljenoE:
+                    prijelazi.append(stanja[i])
+                    prijelazi.append(',')
+                    prijelazi.append('$')
+                    prijelazi.append('BEL')
+                    prijelazi.append(stanje)
+                    prijelazi.append('|')
 
-                dictEps[kljuc].append(stanje)
+                    if stanje not in stanja:
+                        stanja.append(stanje)
+
+                    oznacena.append(stanje)
+                    tmp.append(stanje)
+            stanjaDKA.append(tmp)
 
         i += 1
 
     print mapa
     print prijelazi
     print stanja
-    for key in dictEps:
-        dictEps[key] = list(set(dictEps[key]))
-
-    print dictEps
-
-    #stvori nova stanja (jedno stanje DKA je skup stanja eNKA)
-    stanjaDKA = []
-
-    for key in dictEps:
-        tmp = []
-        tmp.append(key)
-        if len(dictEps[key]) == 1:
-            tmp.append(dictEps[key])
-        elif len(dictEps[key]) > 1:
-            tmp.extend(dictEps[key])
-        stanjaDKA.append(tmp)
-
     print stanjaDKA
+
 
 if __name__ == '__main__':
   main()
