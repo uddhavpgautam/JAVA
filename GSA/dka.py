@@ -26,12 +26,13 @@ class Dka(object):
             if kljuc in mapa:
                 novaS3.append(mapa[kljuc])
             del kljuc
-        for tempS1 in novaS3:
-            if tempS1 not in novaS:
-                novaS.append(tempS1)
-                added = 1
+        if novaS3 not in novaS:
+            novaS.append(novaS3)
+            added = 1
         if added == 1:
-            novaS = self.cash_prijelaz(novaS,mapa)
+            tmp = []
+            tmp.append(novaS)
+            novaS = self.cash_prijelaz(tmp,mapa)
         return novaS
 
     def stvoriDict(self,prijelazi):
