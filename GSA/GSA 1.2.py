@@ -211,8 +211,10 @@ def main ():
 
     print prijelazi
     print dictEps
+    for key in dictEps:
+        dictEps[key] = list(set(dictEps[key]))
 
-
+    print dictEps
 
 
 
