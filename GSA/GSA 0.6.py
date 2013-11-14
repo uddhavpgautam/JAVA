@@ -30,7 +30,7 @@ def main ():
     #print "HelloWorld"
     #print "Ovo je promjena"
 
-    ulaz = open('ulaznaTestKnjiga','r')
+    ulaz = open('ulaznaKnjiga','r')
 
     #učitavanje prva 3 reda
 
@@ -75,6 +75,12 @@ def main ():
             desnaStrana = tmp.split(' ')
             mapa[lijevaStrana].append(desnaStrana)
 
+    #dodaj novu produkciju u mapu
+    ls_poc_nez = []
+    ls_poc_nez.append(pocetni_nezavrsni)
+    mapa['<NoviNezZnak>'] = []
+    mapa['<NoviNezZnak>'].append(ls_poc_nez)
+    print mapa
 
     listaPraznih = []
     # Popuni listu praznih znakova s lijevim stranam eps produkcija
@@ -140,29 +146,14 @@ def main ():
 
     # # - točka, $ eps, % znak za kraj (obrnuti T)
 
-    lsTrenutnihStanja = []
-    lista = []
-    stanja = []
-
-    #u lsTrenutnihStanja dodaj pocetna stanja
-
-    lsPocetNezavrsni = [pocetni_nezavrsni,'->','#']
-    #print lsPocetNezavrsni
-
-    for i in range(len(mapa[pocetni_nezavrsni])):
-        lsTrenutnihStanja.append(mapa[pocetni_nezavrsni][i])
-
     #stvori dka
     dka = Dka()
 
     enka = Enka(mapa,listaPraznih,dictZapocinje,zavrsni)
 
-    for i in range(len(lsTrenutnihStanja)):
-        lsTrenutnihStanja[i] = lsPocetNezavrsni + lsTrenutnihStanja[i]
-        #usput popuni listu listu
-        lista.append('%')
-        stanja.append(enka.stvoriStanje(lsTrenutnihStanja[i],lista[i]))
-
+    stanja = []
+    pocetnoStanje = '<NoviNezZnak>->#'+pocetni_nezavrsni
+    stanja.append(pocetnoStanje)
 
     i = 0
     while i < len(stanja):
@@ -185,23 +176,6 @@ def main ():
             pom = pom.replace("#$","#")
             stanja[i] = pom
 
-
-    #dodaj novu produkciju u mapu
-    ls_poc_nez = []
-    ls_poc_nez.append(pocetni_nezavrsni)
-    mapa['<NoviNezZnak>'] = ls_poc_nez
-
-    #namjesti da za pročitan stari nezavrsni znak ude se u stanja...
-    NovoNez = []
-    NovoNez.append('<NoviNezZnak>->#'+pocetni_nezavrsni+'{%}')
-    dka.dodajLStanje(NovoNez)
-    dka.dodajZnak(pocetni_nezavrsni)
-    dka.dodajDStanje(stanja)
-
-
-    print dictZapocinjeZnakom
-    print mapa
-    print stanja
 
     #sada imam nekakvu pocetnu listu stanja u kojima sam trenutno (u nju sam usao cim sam procitao pocetni nezavrsni znak)
     #idem od svih pocetnih stanja
