@@ -161,10 +161,13 @@ def main ():
             if stanja[i] in dictEps[key]:
                 dictEps[key].append(stanja[i])
                 kljuc = key #svaki eps prijelaz iz trenutnog stanja cemo dodat ovom starom stanju
-            else:
-                #inale kljuc postaje trenutno stanje i ako bude eps prijelaza na
-                #njegov value ce se popuniti
-                kljuc = stanja[i]
+                break
+        if kljuc == '':
+            #inale kljuc postaje trenutno stanje i ako bude eps prijelaza na
+            #njegov value ce se popuniti, a ako ne bude epsilon prijelaza
+            #lista na mejstu kljuc ce ostati prazna
+            kljuc = stanja[i]
+            dictEps[kljuc] = []
         primljenoE = []
         primljenoPiZnak = []
 
@@ -202,16 +205,14 @@ def main ():
                 if stanje not in stanja:
                     stanja.append(stanje)
 
-
-
+                dictEps[kljuc].append(stanje)
 
         i += 1
 
-    del prijelazi[-1]
+    print prijelazi
+    print dictEps
 
-    dka = Dka(prijelazi,stanja)
 
-    dka.stvoriDka()
 
 
 
