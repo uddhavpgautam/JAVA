@@ -183,7 +183,7 @@ def main ():
             #listu stanja
             pass
         else:
-            primljenoE = enka.nadiEps()(stanja[i],prijelazi)
+            primljenoE = enka.nadiEpsPoc()(stanja[i],prijelazi)
             tmp = []
             tmp.append(stanja[i])
             oznacena.append(stanja[i])

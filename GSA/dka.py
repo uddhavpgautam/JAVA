@@ -24,45 +24,23 @@ class Dka(object):
         for tempS in stanja:
             kljuc = tempS+zarez+cash
             if kljuc in mapa:
-                novaS3.append(mapa[kljuc])
+                novaS3.extend(mapa[kljuc])
             del kljuc
-        if novaS3 not in novaS:
-            novaS.append(novaS3)
-            added = 1
+        for tempS1 in novaS3:
+            if tempS1 not in novaS:
+                novaS.append(tempS1)
+                added = 1
         if added == 1:
-            tmp = []
-            tmp.append(novaS)
-            novaS = self.cash_prijelaz(tmp,mapa)
+            novaS = cash_prijelaz(novaS,mapa)
         return novaS
 
     def stvoriDict(self,prijelazi):
-        dict = {}
-        for red in prijelazi:
-            dijeli1 = red.split('BEL')
-            dict[dijeli1[0]] = dijeli1[1]
-        return dict
+        pass
 
 
     def stvoriDka(self):
-        prijelazi = ''.join(self.prijelazi)
-        prijelazi = prijelazi.split('|')
-        dict = self.stvoriDict(prijelazi)
-        print dict
-        listaListaStanja = []
-        for red in prijelazi:
-            print red
-            tmp = []
-            dijeli1 = red.split('BEL')
-            lijevo1 = ''.join(dijeli1[0])
-            dijeli2 = lijevo1.split(',')
-            prvo = dijeli2[0]
-            znak = dijeli2[1]
-            ls = []
-            ls.append(prvo)
-            print znak
-            if znak == '$':
-                tmp = self.cash_prijelaz(ls,dict)
-                print tmp
+        pass
+
 
 
 

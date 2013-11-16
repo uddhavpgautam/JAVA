@@ -193,11 +193,34 @@ def main ():
         i += 1
 
     del prijelazi[-1]
+    prijelazi = ''.join(prijelazi)
 
-    dka = Dka(prijelazi,stanja)
+    prijelazi = prijelazi.split('|')
+    print prijelazi
+    print stanja
 
-    dka.stvoriDka()
+    dictEps = {}
 
+    for stanje in stanja:
+        stanjeProduzeno = stanje+',$BEL'
+        added = 0
+
+        for key in dictEps:
+            if stanje in dictEps[key]:
+                stanje = key
+                added = 1
+                break
+
+        #ako ga nema nigdje s desne strane
+        if not added:
+            dictEps[stanje] = []
+
+        for prijelaz in prijelazi:
+            if stanjeProduzeno in prijelaz:
+                desno = prijelaz.split('BEL')
+                dictEps[stanje].append(desno[1])
+
+    print dictEps
 
 
 
