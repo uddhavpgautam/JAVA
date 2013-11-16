@@ -242,11 +242,47 @@ def main ():
         listaDKA.append(trenS)
 
     print listaDKA
+
+    brojevi = []
+
+    for stanja in listaDKA:
+        i = 0
+        for stanje in stanja:
+            i +=1
+        brojevi.append(i)
+    print brojevi
+
+    yx = zip(brojevi,listaDKA)
+    yx.sort(reverse = True)
+
+    listaDKANew = [x for y, x in yx]
+    print listaDKANew
+
+    listaDKAfinal = []
+
+    for stanja in listaDKANew:
+        dodaj = 1
+        for stanja1 in listaDKAfinal:
+            for stanje in stanja:
+                if stanje not in stanja1:
+                    dodaj = 1
+                    break
+                dodaj = 0
+            if dodaj == 0:
+                break
+
+        if dodaj:
+            listaDKAfinal.append(stanja)
+    print listaDKAfinal
+
     dictDKA = {}
 
+    i = -1
+    for stanja in listaDKAfinal:
+        i +=1
+        dictDKA[i] = stanja
 
-
-
+    print dictDKA
 
 if __name__ == '__main__':
   main()
