@@ -1,0 +1,5 @@
+0 <A> Stavi 3
+0 <B> Stavi 1
+1 <A> Stavi 6
+1 <B> Stavi 1
+2 <B> Stavi 5
