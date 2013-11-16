@@ -8,11 +8,12 @@ from dka import Dka
 class Enka(object):
 
 
-    def __init__(self,mapa,listaPraznih,dictZapocinje,zavrsni):
+    def __init__(self,mapa,listaPraznih,dictZapocinje,zavrsni,nezavrsni):
         self.mapa = mapa
         self.listaPraznih = listaPraznih
         self.dictZapocinje = dictZapocinje
         self.zavrsni = zavrsni
+        self.nezavrsni = nezavrsni
 
     def stvoriStanje(self,ime,lista):
         stanje = ''
@@ -101,8 +102,16 @@ class Enka(object):
             znak2 = list(znak2)
             del znak2[ind2+1:]
             znak2 = ''.join(znak2)
-            #u znak2 je sada znak koji je 2; poslije točke trenutno
-            lista.extend(self.dictZapocinje[znak2])
+            #u znak2 je sada znak koji je 2; poslije točke trenutno(ako je to nezavrsni)
+            if znak2 in self.nezavrsni:
+                lista.extend(self.dictZapocinje[znak2])
+            else:
+                #inače pronađi koji je to zavrsni
+                ind6 = znak2.find('<')
+                znak2 = list(znak2)
+                del znak2[ind6:]
+                znak2 = ''.join(znak2)
+                lista.extend(znak2)
 
             #ako ima mogucnost da ode u epsilon provjeri, i ako je prazan
             #dodaj staru listu u novu
