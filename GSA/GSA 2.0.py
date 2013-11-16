@@ -5,11 +5,9 @@
 """
 
 import sys
-import copy
 import os
 
 from enka import Enka
-from dka import Dka
 
 def nadiEpsOkr(stanja,mapa):
     novaS = stanja
