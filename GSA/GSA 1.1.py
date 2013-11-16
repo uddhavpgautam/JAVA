@@ -12,6 +12,25 @@ from dka import Dka
 from TablicaAkcija import TablicaAkcija
 from TablicaNovoStanje import TablicaNovoStanje
 
+def nadiEpsOkr(stanja,mapa):
+    novaS = stanja
+    novaS3 = []
+    zarez = ','
+    cash = '$'
+    added = 0
+
+    for tempS in stanja:
+        kljuc = tempS+zarez+cash
+        if kljuc in mapa:
+            novaS3.extend(mapa[kljuc])
+        del kljuc
+    for tempS1 in novaS3:
+        if tempS1 not in novaS:
+            novaS.append(tempS1)
+            added = 1
+    if added == 1:
+        novaS = nadiEpsOkr(novaS,mapa)
+    return novaS
 
 def nadiZvjezdice(znak,dict):
     #prima liejvi znak i dictIzravnoZnakom, a vraća listu (desnu stranu jedinice i zvijedzdice)
@@ -199,35 +218,30 @@ def main ():
     print prijelazi
     print stanja
 
+    dictPrijelazi = {}
+    for line in prijelazi:
+        #razdijeli key od value
+        strCmp = line.split("BEL")
+        key  = strCmp [0]
+        value = strCmp[1:]
+        tmp = ''.join(value)
+        if key in dictPrijelazi:
+            dictPrijelazi[key].append(tmp)
+        else:
+            dictPrijelazi[key] = value
+    print dictPrijelazi
     dictEps = {}
 
+    listaDKA = []
 
     #prvo nadi eps okruzenje svakog stanja, a onda sredi hijerarhiju
     for stanje in stanja:
-        stanjeProduzeno = stanje+',$BEL'
-        added = 0
+        trenS = []
+        trenS.append(stanje)
+        trenS = nadiEpsOkr(trenS,dictPrijelazi)
+        listaDKA.append(trenS)
 
-        for key in dictEps:
-            if stanje in dictEps[key]:
-                stanje = key
-                added = 1
-                break
-
-        #ako ga nema nigdje s desne strane
-        if not added:
-            dictEps[stanje] = []
-
-        for prijelaz in prijelazi:
-            if stanjeProduzeno in prijelaz:
-                desno = prijelaz.split('BEL')
-                dictEps[stanje].append(desno[1])
-
-    print dictEps
-
-    listaStanjaDKA = []
-    for key in dictEps:
-        dictEps[key].append(key)
-    #print dictEps
+    print listaDKA
     dictDKA = {}
 
 
