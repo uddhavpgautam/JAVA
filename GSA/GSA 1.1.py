@@ -201,6 +201,8 @@ def main ():
 
     dictEps = {}
 
+
+    #prvo nadi eps okruzenje svakog stanja, a onda sredi hijerarhiju
     for stanje in stanja:
         stanjeProduzeno = stanje+',$BEL'
         added = 0
@@ -221,7 +223,14 @@ def main ():
                 dictEps[stanje].append(desno[1])
 
     print dictEps
-    print dictEps
+
+    listaStanjaDKA = []
+    for key in dictEps:
+        dictEps[key].append(key)
+    #print dictEps
+    dictDKA = {}
+
+
 
 
 
