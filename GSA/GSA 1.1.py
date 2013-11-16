@@ -221,6 +221,7 @@ def main ():
                 dictEps[stanje].append(desno[1])
 
     print dictEps
+    print dictEps
 
 
 
