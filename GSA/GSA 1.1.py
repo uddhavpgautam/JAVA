@@ -6,11 +6,10 @@
 
 import sys
 import copy
+import os
 
 from enka import Enka
 from dka import Dka
-from TablicaAkcija import TablicaAkcija
-from TablicaNovoStanje import TablicaNovoStanje
 
 def nadiEpsOkr(stanja,mapa):
     novaS = stanja
@@ -46,8 +45,10 @@ def nadiZvjezdice(znak,dict):
     return ret
 
 def main ():
-    #print "HelloWorld"
-    #print "Ovo je promjena"
+
+    TablicaAkcija = open(os.path.join('analizator','TablicaAkcija.txt' ), "w")
+    TablicaNovoStanje = open(os.path.join('analizator','TablicaNovoStanje.txt' ), "w")
+    Sinkronizacijski = open(os.path.join('analizator','Sinkronizacijski.txt' ), "w")
 
     ulaz = open('ulaznaKnjiga','r')
 
@@ -63,9 +64,14 @@ def main ():
     del zavrsni[0]
     zavrsni [-1] = zavrsni[-1].strip()
 
+    znakovi = zavrsni+nezavrsni
+
     sinkronizacijski = ulaz.readline().split(' ')
     del sinkronizacijski[0]
     sinkronizacijski [-1] = sinkronizacijski[-1].strip()
+
+    sinkronizacijski = ' '.join(sinkronizacijski)
+    Sinkronizacijski.write(sinkronizacijski)
 
     mapa = {}
 
@@ -215,8 +221,6 @@ def main ():
     prijelazi = ''.join(prijelazi)
 
     prijelazi = prijelazi.split('|')
-    print prijelazi
-    print stanja
 
     dictPrijelazi = {}
     for line in prijelazi:
@@ -229,8 +233,6 @@ def main ():
             dictPrijelazi[key].append(tmp)
         else:
             dictPrijelazi[key] = value
-    print dictPrijelazi
-    dictEps = {}
 
     listaDKA = []
 
@@ -241,8 +243,6 @@ def main ():
         trenS = nadiEpsOkr(trenS,dictPrijelazi)
         listaDKA.append(trenS)
 
-    print listaDKA
-
     brojevi = []
 
     for stanja in listaDKA:
@@ -250,16 +250,15 @@ def main ():
         for stanje in stanja:
             i +=1
         brojevi.append(i)
-    print brojevi
 
     yx = zip(brojevi,listaDKA)
     yx.sort(reverse = True)
 
     listaDKANew = [x for y, x in yx]
-    print listaDKANew
 
     listaDKAfinal = []
 
+    #riješavanje manjih eps okruženja
     for stanja in listaDKANew:
         dodaj = 1
         for stanja1 in listaDKAfinal:
@@ -273,7 +272,6 @@ def main ():
 
         if dodaj:
             listaDKAfinal.append(stanja)
-    print listaDKAfinal
 
     dictDKA = {}
 
@@ -283,6 +281,38 @@ def main ():
         dictDKA[i] = stanja
 
     print dictDKA
+    print dictPrijelazi
+
+    #najprije dodajem pomakni, a onda i reduciraj određenim redosljedom tako da se izbjegnu nejednoznačnosti
+
+    #napravi tablicuAkcija, prvo pomakni, a onda i reduciraj
+    for kljuc in dictDKA:
+        for znak in zavrsni:
+            for stanje in dictDKA[kljuc]:
+                tmp = stanje+','+znak
+                if tmp in dictPrijelazi:
+                    #ukoliko nađeš prijelaz pogledaj gdje ideš, ideš u samo jedno
+                    #stanje, nađi u kojem je DKA stanju to stanje
+                    odrediste = dictPrijelazi[tmp]
+                    odrediste = ''.join(odrediste)
+                    for key in dictDKA:
+                        if odrediste in dictDKA[key]:
+                            odredisteDKA = key
+                            break
+                    ispis = str(kljuc)+' '+znak+' Pomakni '+str(odredisteDKA)
+                    TablicaAkcija.write(ispis)
+                    TablicaAkcija.write('\n')
+                else:
+                    pass
+                    #inače odbaci, odnosno "ostavi to mejsto u tablici prazbno
+                    #ne zapisuj ništa u datoteku
+
+
+    ulaz.close()
+    TablicaAkcija.close()
+    TablicaNovoStanje.close()
+    Sinkronizacijski.close()
+
 
 if __name__ == '__main__':
   main()
